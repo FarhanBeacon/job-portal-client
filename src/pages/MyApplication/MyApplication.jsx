@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 const MyApplication = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/jobApplications?email=${user.email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setJobs(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching job applications:", error);
-      });
+    // fetch(`http://localhost:5000/jobApplications?email=${user.email}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setJobs(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching job applications:", error);
+    //   });  
+    axios.get(`http://localhost:5000/jobApplications?email=${user.email}`, {withCredentials: true})
+    .then(res => setJobs(res.data))
   }, [user.email]);
 
   return (
